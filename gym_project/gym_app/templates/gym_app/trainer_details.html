@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Інформація про тренера{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-lg">
+        {% if trainer.photo %}
+            <img src="{{ trainer.photo.url }}" class="card-img-top rounded" alt="{{ trainer.username }}">
+        {% else %}
+            <img src="{% static 'images/default-trainer.jpg' %}" class="card-img-top rounded" alt="Default photo">
+        {% endif %}
+        <div class="card-body">
+            <h1 class="card-title text-center mb-3">{{ trainer.username }}</h1>
+            <p class="card-text text-center text-muted mb-4">Email: <strong>{{ trainer.email }}</strong></p>
+            <p class="card-text"><strong>Опис:</strong></p>
+            <p>{{ trainer.bio }}</p>
+            <div class="text-center mt-4">
+                <a href="{% url 'trainer_list' %}" class="btn btn-secondary">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

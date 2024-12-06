@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Користувачі{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Список користувачів</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ім'я користувача</th>
+            <th>Email</th>
+            <th>Роль</th>
+            <th>Абонемент</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.get_role_display }}</td>
+            <td>
+                {% if user.subscriptions.exists %}
+                    {% for subscription in user.subscriptions.all %}
+                        <div>
+                            <strong></strong> 
+                                {% if subscription.active %}
+                                    Активен
+                                {% else %}
+                                    Неактивен
+                                {% endif %}
+                            <br>
+                            <strong>Тривалість:</strong> {{ subscription.get_duration_display }}<br>
+                            <strong>Дата початку:</strong> {{ subscription.start_date }}<br>
+                            <strong>Дата закінчення:</strong> {{ subscription.end_date }}
+                        </div>
+                        
+                    {% endfor %}
+                {% else %}
+                    <span>Абонемент відсутній</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if user.role != 'admin' %}
+                    <form method="post" action="{% url 'assign_trainer' user.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-primary">Призначити тренером</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Список тренерів{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Тренери</h1>
+<div class="row">
+    {% for trainer in trainers %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                {% if trainer.photo %}
+                    <img src="{{ trainer.photo.url }}" class="card-img-top" alt="{{ trainer.username }}">
+                {% else %}
+                    <img src="{% static 'images/default-trainer.jpg' %}" class="card-img-top" alt="Default photo">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ trainer.username }}</h5>
+                    <p class="card-text">{{ trainer.bio|truncatewords:20 }}</p>
+                    <a href="{% url 'trainer_details' trainer.id %}" class="btn btn-primary btn-sm">Докладніше</a>
+
+                    {% if user.is_authenticated and user.is_superuser %}
+                        <div class="mt-3 d-flex justify-content-between">
+                            <a href="{% url 'edit_trainer' trainer.id %}" class="btn btn-warning btn-sm">Редагувати</a>
+                            <form method="post" action="{% url 'delete_trainer' trainer.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-center">Тренерів наразі немає.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Доступні абонементи{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Виберіть абонемент</h1>
+
+{% if user.subscriptions.exists %}
+    <div class="alert alert-warning text-center">
+        У вас є активний абонемент.
+    </div>
+{% else %}
+    <div class="row">
+        {% for option in available_options %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ option.description }}</h5>
+                    <p class="card-text">Ціна: {{ option.price }}$</p>
+                    <form method="post" action="{% url 'purchase_subscription' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="duration" value="{{ option.duration }}">
+                        <button type="submit" class="btn btn-success w-100">Придбати</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

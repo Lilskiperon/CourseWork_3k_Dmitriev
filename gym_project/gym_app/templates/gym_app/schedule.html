@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Розклад{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Розклад тренувань</h1>
+{% if require_login %}
+    <div class="alert alert-warning text-center">
+        Будь ласка, <a href="{% url 'login' %}">увійдіть</a> або <a href="{% url 'register' %}">зареєструйтесь</a>, щоб переглядати розклад.
+    </div>
+{% else %}
+    {% if trainings %}
+        <table class="table table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>Дата</th>
+                    <th>Час</th>
+                    <th>Тренер</th>
+                    <th>Опис</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for training in trainings %}
+                <tr>
+                    <td>{{ training.date }}</td>
+                    <td>{{ training.time }}</td>
+                    <td>{{ training.trainer.username }}</td>
+                    <td>{{ training.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if user.role == 'trainer' %}
+        <a href="{% url 'add_training' %}" class="btn btn-primary">Додати тренування</a>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-info text-center">
+            Немає доступних тренувань.
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

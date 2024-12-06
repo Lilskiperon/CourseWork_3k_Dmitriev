@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Додати новину{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4 display-6">Додати новину</h1>
+            <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-white shadow-sm">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_title" class="form-label fw-bold">Заголовок</label>
+                    {{ form.title|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_content" class="form-label fw-bold">Опис</label>
+                    {{ form.content|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_image" class="form-label fw-bold">Фото</label>
+                    {{ form.image|add_class:"form-control" }}
+                </div>
+                <button type="submit" class="btn btn-success w-100">Додати</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

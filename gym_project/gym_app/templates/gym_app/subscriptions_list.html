@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Мої абонементи{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Абонементи</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Клієнт</th>
+            <th>Тривалість</th>
+            <th>Дата початку</th>
+            <th>Дата закінчення</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subscription in subscriptions %}
+        <tr>
+            <td>{{ subscription.user.username }}</td>
+            <td>{{ subscription.get_duration_display }}</td>
+            <td>{{ subscription.start_date }}</td>
+            <td>{{ subscription.end_date }}</td>
+            <td>
+                {% if subscription.active %}
+                    Активний
+                {% else %}
+                    Неактивний
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

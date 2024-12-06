@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="mb-4">Ласкаво просимо до Gym App!</h1>
+    <p>Слідкуйте за новинами та розкладом тренувань!</p>
+</div>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h2 class="mt-5">Останні новини</h2>
+        {% for item in news %}
+            <div class="card my-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text">{{ item.content|truncatewords:20 }}</p>
+                    <a href="{% url 'news_detail' item.id %}" class="btn btn-primary">Читати докладніше</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>Новин поки що немає.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

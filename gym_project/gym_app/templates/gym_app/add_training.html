@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Додати тренування{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4 display-6">Додати тренування</h1>
+    <form method="post" class="p-4 border rounded bg-white shadow-sm">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success w-100">Добавить</button>
+    </form>
+    <p class="text-center mt-3">
+        <a href="{% url 'trainings_list' %}" class="btn btn-secondary">Назад к списку тренировок</a>
+    </p>
+</div>
+{% endblock %}
